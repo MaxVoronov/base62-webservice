@@ -1,0 +1,33 @@
+version: "3"
+services:
+  nginx:
+    container_name: ${CONTAINER_PREFIX}nginx
+    image: ${IMAGE_PREFIX}/nginx
+    build:
+      context: ${DOCKER_DIR}/nginx
+    stdin_open: true
+    tty: true
+    ports:
+      - 80:80
+    depends_on:
+      - phpfpm
+    links:
+      - phpfpm
+    volumes:
+      - ${SOURCE_DIR}/:/var/www
+    env_file:
+      - .env
+
+  phpfpm:
+    container_name: ${CONTAINER_PREFIX}phpfpm
+    image: ${IMAGE_PREFIX}/phpfpm
+    build:
+      context: ${DOCKER_DIR}/phpfpm
+    stdin_open: true
+    tty: true
+    ports:
+      - 9000:9000
+    volumes:
+      - ${SOURCE_DIR}/:/var/www
+    env_file:
+      - .env
