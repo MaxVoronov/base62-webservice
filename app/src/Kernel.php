@@ -15,13 +15,17 @@ use Symfony\Component\Routing\RouteCollection;
 
 class Kernel
 {
-    public function handle(Request $request): Response
+    public function handle(): Response
     {
         try {
+            $diContainer = $this->loadDiFromConfig();
+
+            /** @var Request $request */
+            $request = $diContainer->get(Request::class);
+
             $context = new RequestContext();
             $context->fromRequest($request);
 
-            $diContainer = $this->initDiContainer();
             $matcher = new UrlMatcher($this->getRoutes(), $context);
             $parameters = $matcher->match($context->getPathInfo());
 
@@ -49,7 +53,7 @@ class Kernel
         return $loader->load('routes.yml');
     }
 
-    protected function initDiContainer(): ContainerBuilder
+    protected function loadDiFromConfig(): ContainerBuilder
     {
         $containerBuilder = new ContainerBuilder;
         $loader = new DiYamlLoader($containerBuilder, $this->getConfigDir());

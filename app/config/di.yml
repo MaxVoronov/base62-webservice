@@ -7,3 +7,9 @@ services:
   App\:
     resource: '../src/*'
     exclude: '../src/{Kernel.php}'
+
+  Symfony\Component\HttpFoundation\Request:
+    factory: 'App\Factory\HttpRequestFactory:create'
+
+  Amirax\Base62Interface:
+    class: Amirax\Base62

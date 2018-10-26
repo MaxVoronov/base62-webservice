@@ -1,3 +1,7 @@
-home:
-  path: /
-  controller: 'App\Controller\HomeController::execute'
+encoder:
+  path: /encode
+  controller: 'App\Controller\EncodeController::execute'
+
+decoder:
+  path: /decode
+  controller: 'App\Controller\DecodeController::execute'
